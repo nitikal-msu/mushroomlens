@@ -84,7 +84,7 @@ This repository contains the prototype website, the research questionnaire, and 
 ## 📄 Read the Full Research Paper
 The complete methodology, literature review, and results are in the paper.
  
-[👉 Click here to read the full PDF paper](file:///C:/Users/ACER/Downloads/mushroom.pdf)
+[📑 Click here to read the full PDF paper](file:///C:/Users/ACER/Downloads/mushroom.pdf)
  
 ## 🗂️ Repository Structure
 ```
