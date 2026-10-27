@@ -118,7 +118,7 @@ This repository contains the prototype website, the research questionnaire, and 
 ## 📄 Read the Full Research Paper
 The complete methodology, literature review, and results are in the paper.
  
-[👉 Click here to read the full PDF paper](./การพัฒนาและประเมินเว็บแอปพลิเคชันสนับสนุนการคัดกรองเบื้องต้นและให้ข้อมูลความเสี่ยงของเห็ดป่าในประเทศไทยด้วยการเรียนรู้เชิงลึกและการออกแบบประสบการณ์ผู้ใช้ (1).pdf)
+[👉 Click here to read the full PDF paper](https://github.com/nitikal-msu/mushroomlens/blob/main/MushroomLens-paper.pdf)
  
 ## 🗂️ Repository Structure
 ```
