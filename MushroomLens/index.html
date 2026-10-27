@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MushroomLens - รู้จักเห็ดป่าก่อนเก็บ</title>
+  <meta name="description" content="โครงการวิจัย AI ร่วมกับ UX เพื่อช่วยระบุเห็ดป่ากินได้ในประเทศไทยอย่างปลอดภัย">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;500;600;700&family=Noto+Serif+Thai:ital,wght@1,700&family=Inter:wght@400;500;600&family=Material+Symbols+Outlined:FILL@0..1&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="mainstyle.css">
+</head>
+
+<body>
+
+  <nav id="nav">
+    <div class="wrap">
+      <a href="#hero" class="logo"><span class="ms">eco</span>MushroomLens</a>
+      <div class="links" id="links">
+        <a href="#hero" class="on">หน้าแรก</a>
+        <a href="#classify">จำแนกเห็ด</a>
+        <a href="#species">คลังข้อมูลสายพันธุ์เห็ด</a>
+        <a href="#community">แหล่งชุมชน</a>
+        <a href="#about">เกี่ยวกับเรา</a>
+        <a href="#research">โครงสร้างงานวิจัย</a>
+      </div>
+      <div class="nav-r">
+        <button class="ib" id="sBtn" aria-label="ค้นหาเห็ด"><span class="ms">search</span></button>
+        <div class="dd" id="nWrap">
+          <button class="ib" id="nBtn" aria-label="การแจ้งเตือน"><span class="ms">notifications</span><i class="ndot"
+              id="nDot"></i></button>
+          <div class="ddm glass" id="nMenu">
+            <div class="ddh"><b>การแจ้งเตือน</b><button id="nRead">อ่านทั้งหมดแล้ว</button></div>
+            <div id="nList"></div>
+          </div>
+        </div>
+        <button class="btn login" id="loginBtn">เข้าสู่ระบบ</button>
+        <div class="dd" id="uWrap" hidden>
+          <button class="ib av" id="uBtn" aria-label="บัญชีผู้ใช้"></button>
+          <div class="ddm glass" id="uMenu">
+            <div class="ddh" style="display:block"><b id="uName"></b><small id="uMail"
+                style="display:block;color:var(--mut)"></small></div><button class="ddi" id="logout"><span
+                class="ms">logout</span>ออกจากระบบ</button>
+          </div>
+        </div>
+        <button class="ib" id="burger" aria-label="เมนู"><span class="ms">menu</span></button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ค้นหา -->
+  <div id="sov"><button class="ib close" id="sClose" aria-label="ปิด"><span class="ms">close</span></button>
+    <div class="box">
+      <h2 class="tt" style="text-align:center">ค้นหาเห็ดที่ต้องการรู้จัก</h2>
+      <input id="sq" type="text" placeholder="พิมพ์ชื่อไทยหรือชื่อวิทยาศาสตร์..." autocomplete="off">
+      <div class="chips" id="sChips"></div>
+      <div id="sres"></div>
+    </div>
+  </div>
+
+  <!-- HERO -->
+  <header id="hero">
+    <div class="wrap">
+      <div class="in">
+        <div class="hbadge glass"><span class="ms">verified_user</span>ระบบช่วยจำแนกเห็ดป่า
+          ด้วยปัญญาประดิษฐ์และข้อมูลชุมชน</div>
+        <h1>รู้จักเห็ดป่า<em>ก่อนเก็บ...</em><br>เพื่อความปลอดภัยของคุณและครอบครัว</h1>
+        <p>MushroomLens เป็นเว็บแอปพลิเคชันที่พัฒนาขึ้นเพื่อสนับสนุน การจำแนกชนิดเห็ดป่าจากภาพถ่าย
+          โดยประยุกต์ใช้ปัญญาประดิษฐ์
+          ร่วมกับฐานข้อมูลความรู้เกี่ยวกับเห็ดในประเทศไทย เพื่อช่วยให้ผู้ใช้งานเข้าถึงข้อมูลได้อย่างสะดวกและเป็นระบบ</p>
+        <div style="display:flex;gap:14px;flex-wrap:wrap">
+          <a href="#classify" class="btn"><span class="ms">upload_file</span>อัปโหลดรูปภาพเห็ด</a>
+          <a href="#species" class="btn ghost">ดูคลังสายพันธุ์</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="wrap">
+      <div class="stats">
+        <div class="stat glass fu"><span class="ms">library_books</span><b
+            data-n="15">15</b><small>สายพันธุ์เห็ดในชุดข้อมูล</small></div>
+        <div class="stat glass fu"><span class="ms">photo_library</span><b
+            data-n="549">549</b><small>ภาพถ่ายจริง</small></div>
+        <div class="stat glass warn fu"><span class="ms">warning</span><b>ความเสี่ยงสูง</b><small
+            style="color:var(--tx)">ระวังเห็ดพิษที่หน้าตาคล้ายเห็ดกินได้</small></div>
+      </div>
+      <div class="mq">
+        <div id="mq"></div>
+      </div>
+    </div>
+
+    <!-- หมวดความปลอดภัย -->
+    <section class="sec" id="safety">
+      <div class="wrap">
+        <div class="center fu"><span class="lbl">Safety Classification</span>
+          <h2 class="tt">แบ่งตาม<em>ระดับความปลอดภัย</em></h2>
+          <p class="sub">ทุกสายพันธุ์ในระบบถูกจัดเป็น 3 ระดับ เลือกดูตามระดับได้ทันที</p>
+        </div>
+        <div class="cats">
+          <button class="cat glass safe fu" data-go="safe"><span class="ms">check_circle</span>
+            <h3>กินได้แน่นอน</h3>
+            <p>สายพันธุ์ที่ผู้เชี่ยวชาญยืนยัน และใช้ฝึกโมเดล</p><b></b>
+          </button>
+          <button class="cat glass check fu" data-go="check"><span class="ms">info</span>
+            <h3>ต้องตรวจสอบ</h3>
+            <p>ระบุได้ยาก หรือมีชนิดคล้ายที่เป็นอันตราย ต้องให้ผู้เชี่ยวชาญยืนยัน</p><b></b>
+          </button>
+          <button class="cat glass toxic fu" data-go="toxic"><span class="ms">warning</span>
+            <h3>มีพิษ</h3>
+            <p>ไม่ควรรับประทาน ใช้เพื่อแสดงคำเตือนในแอปเท่านั้น</p><b></b>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- เห็ดที่ควรระวังสับสน -->
+    <section class="sec" id="species">
+      <div class="wrap">
+        <div class="center fu"><span class="lbl">Species Library</span>
+          <h2 class="tt">คลัง<em>สายพันธุ์เห็ด</em>ในประเทศไทย</h2>
+          <p class="sub">คลิกที่การ์ดเพื่อดูข้อมูลลักษณะเด่น แหล่งที่พบ และเห็ดที่มีลักษณะคล้ายกัน</p>
+        </div>
+        <div class="filters fu" id="filters"></div>
+        <div id="sgrid"></div>
+      </div>
+    </section>
+
+    <section class="sec" id="lookalike" style="padding-top:0">
+      <div class="wrap">
+        <div class="center fu"><span class="lbl" style="color:var(--bad)">Look-alike Warning</span>
+          <h2 class="tt">คู่เห็ดที่<em style="color:var(--bad)">ชนิดเห็ดที่มักสับสนกันบ่อย</em></h2>
+        </div>
+        <div class="la">
+          <div class="pair glass fu">
+            <div class="vs"><span class="ok">เห็ดระโงกขาว</span><em>VS</em><span class="no">เห็ดระโงกหิน</span></div>
+            <p>ระยะดอกไข่ของทั้งสองชนิดหน้าตาใกล้เคียงกันมาก เห็ดระโงกหินมีพิษ amatoxins ทำลายตับและไต อาจถึงแก่ชีวิต
+              ห้ามเก็บระยะไข่</p>
+          </div>
+          <div class="pair glass fu">
+            <div class="vs"><span class="ok">เห็ดเผาะ</span><em>VS</em><span class="no">เห็ดไข่หงส์</span></div>
+            <p>ผ่าดูเนื้อใน เห็ดเผาะอ่อนเนื้อในสีขาว ส่วนเห็ดไข่หงส์เนื้อในเป็นสีม่วงดำหรือดำตั้งแต่ยังเล็ก
+              หากไม่แน่ใจห้ามรับประทาน</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec" id="classify">
+      <div class="wrap" style="max-width:820px">
+        <div class="center"><span class="lbl">Classify</span>
+          <h2 class="tt">อัปโหลด<em>รูปภาพเห็ด</em></h2>
+          <p class="sub">เลือกรูปเห็ดที่ต้องการตรวจสอบ ระบบจะช่วยประเมินชนิดเป็นข้อมูลประกอบการตัดสินใจ</p>
+        </div>
+        <label class="drop glass" id="drop" for="file"><span class="ms">upload_file</span><b>คลิกเพื่อเลือกรูป
+            หรือลากรูปมาวางที่นี่</b><small>รองรับไฟล์ JPG, PNG</small>
+          <img id="prev" alt="ตัวอย่างรูปที่อัปโหลด" hidden><input type="file" id="file" accept="image/*"
+            hidden></label>
+        <div id="goWrap" style="text-align:center;margin:22px 0"><button class="btn" id="go" disabled><span
+              class="ms">search</span>วิเคราะห์ภาพ</button></div>
+        <div class="disc glass" id="out" hidden><span class="ms">info</span>
+          <p id="outt"></p>
+        </div>
+        <div id="result" hidden></div>
+        <div class="disc glass"><span class="ms">warning</span>
+          <p><b>ข้อควรระวัง:</b>ผลการวิเคราะห์จากระบบ AI เป็นเพียงข้อมูลประกอบการจำแนกชนิดเห็ด
+            ไม่สามารถใช้ยืนยันความปลอดภัยในการบริโภคจากภาพถ่ายเพียงอย่างเดียว
+            ควรตรวจสอบกับผู้เชี่ยวชาญก่อนบริโภคทุกครั้ง</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec" id="community">
+      <div class="wrap">
+        <div class="center fu"><span class="lbl">Data Sources</span>
+          <h2 class="tt">ชุมชนและ<em>แหล่งที่มา</em>ของข้อมูล</h2>
+          <p class="sub">องค์ความรู้ด้านเห็ดราถูกรวบรวมจากผู้เชี่ยวชาญท้องถิ่น นักวิจัย และแหล่งข้อมูลที่เกี่ยวข้อง
+            เพื่อพัฒนาฐานข้อมูลสำหรับสนับสนุนการจำแนกชนิดเห็ดและการเข้าถึงข้อมูลด้านความปลอดภัย</p>
+        </div>
+
+        <!-- แผนที่จริงจาก Google My Maps -->
+        <div class="map glass fu">
+          <iframe id="tmap" src="https://www.google.com/maps/d/embed?mid=15xTWfx9MDwfmf7D_RkGB2jbG8ZyNo4Y&ehbc=2E312F"
+            title="แผนที่แหล่งข้อมูลชุมชนที่ร่วมโครงการ MushroomLens" loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+        </div>
+        <div class="mpanel glass fu">
+          <h3>
+            <span class="ms">my_location</span>
+            เครือข่ายนักวิจัยท้องถิ่น
+          </h3>
+
+          <p>
+            จุดแสดงตำแหน่งของชุมชนนักเก็บเห็ดและศูนย์วิจัยภูมิภาคที่ร่วมส่งต่อภาพถ่ายและข้อมูลทางนิเวศวิทยา
+          </p>
+
+          <div class="chips">
+            <span class="bdg safe">
+              <span class="ms" style="font-size:14px">check_circle</span>
+              ภาคตะวันออกเฉียงเหนือ
+            </span>
+          </div>
+        </div>
+
+        <h3 class="dh fu"><span class="ms">group</span> ชุมชนที่เข้าร่วมโครงการ</h3>
+        <div class="dsgrid">
+          <article class="ds big glass fu" data-id="0">
+            <div class="dsimg"><img src="img/community/1.jpg" alt="ป่าชุมชนบ้านโนนศิลา จังหวัดขอนแก่น"
+                onerror="this.remove()"><span class="bdg safe"><span class="ms"
+                  style="font-size:14px">verified</span>จังหวัดขอนแก่น</span></div>
+            <div class="dsb">
+              <h3>ป่าชุมชนบ้านโนนศิลา</h3>
+              <p>แหล่งข้อมูลภาคสนามในพื้นที่จังหวัดขอนแก่น
+                สำหรับการเก็บรวบรวมข้อมูลและภาพถ่ายเห็ดป่าในพื้นที่ภาคตะวันออกเฉียงเหนือ</p>
+            </div>
+          </article>
+          <article class="ds glass fu" data-id="1"><span class="ms">forest</span>
+            <h3>ป่าชุมชนบ้านโนนศิลา (Non Sila Community Forest)</h3>
+            <p>เพื้นที่ป่าชุมชนในตำบลท่านางแนว อำเภอแวงน้อย จังหวัดขอนแก่น
+              ซึ่งเป็นแหล่งข้อมูลภาคสนามสำหรับการเก็บภาพและข้อมูลเกี่ยวกับเห็ดป่าในพื้นที่ภาคตะวันออกเฉียงเหนือ</p>
+          </article>
+          <article class="ds glass fu" data-id="2"><span class="ms">terrain</span>
+            <h3>เครือข่ายชุมชนผู้เก็บเห็ดในภาคตะวันออกเฉียงเหนือ</h3>
+            <p>เครือข่ายชุมชนที่มีประสบการณ์ในการเก็บเห็ดป่าและร่วมสนับสนุนข้อมูลภาพถ่าย ลักษณะเห็ด และแหล่งที่พบ
+              เพื่อใช้ประกอบการจัดทำฐานข้อมูลเห็ดของโครงการ</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec" id="verify">
+      <div class="wrap">
+        <div class="center fu"><span class="lbl">Community-Sourced Data</span>
+          <h2 class="tt">ข้อมูลจาก<em>ชุมชน</em> ตรวจสอบโดยผู้เชี่ยวชาญ</h2>
+          <p class="sub">ข้อมูลที่ใช้ฝึก AI ผ่านการคัดกรอง 3 ขั้นตอน</p>
+        </div>
+        <div class="com">
+          <div class="cm glass fu"><span class="ms">photo_camera</span><small>ขั้นตอนที่ 1</small>
+            <h3>เก็บภาพถ่าย</h3>
+            <p>บันทึกภาพเห็ดในสภาพแวดล้อมจริง พร้อมแหล่งที่พบ</p>
+          </div>
+          <div class="cm glass fu"><span class="ms">science</span><small>ขั้นตอนที่ 2</small>
+            <h3>ตรวจสอบโดยผู้เชี่ยวชาญ</h3>
+            <p>ยืนยันชนิดและความเป็นพิษก่อนนำเข้าชุดข้อมูล</p>
+          </div>
+          <div class="cm glass fu"><span class="ms">model_training</span><small>ขั้นตอนที่ 3</small>
+            <h3>ฝึกโมเดล AI</h3>
+            <p>ใช้เฉพาะข้อมูลที่ผ่านการรับรองเพื่อเพิ่มความแม่นยำ</p>
+          </div>
+        </div>
+        <div class="disc glass fu"><span class="ms">warning</span>
+          <p><b>ข้อจำกัดความรับผิดชอบ:</b> ผลจาก AI ใช้ประกอบการตัดสินใจเท่านั้น
+            ไม่สามารถยืนยันว่ากินได้จากภาพถ่ายอย่างเดียว ควรนำเห็ดไปให้ผู้เชี่ยวชาญในท้องถิ่นตรวจสอบทุกครั้งก่อนบริโภค
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec" id="about">
+      <div class="wrap">
+        <div class="center fu"><span class="lbl">About the Research</span>
+          <h2 class="tt">ออกแบบด้วยกระบวนการ<em>Double Diamond</em></h2>
+          <p class="sub">การผสาน AI (Transfer Learning) เข้ากับ UX Design เพื่อเพิ่มความปลอดภัยของผู้เก็บเห็ดป่า</p>
+        </div>
+        <div class="tl">
+          <div class="ti fu">
+            <div class="glass"><small>01 · DISCOVER</small>
+              <h3>ทำความเข้าใจปัญหา</h3>
+              <p>ศึกษาสถิติการเกิดพิษจากเห็ดและพฤติกรรมของผู้เก็บเห็ดในชุมชน</p>
+            </div>
+          </div>
+          <div class="ti fu">
+            <div class="glass"><small>02 · DEFINE</small>
+              <h3>นิยามปัญหา</h3>
+              <p>ศึกษาปัญหาการเข้าถึงและทำความเข้าใจข้อมูลเห็ด เพื่อพัฒนาเว็บไซต์ที่ผสาน AI จำแนกภาพและนำเสนอข้อมูลที่เกี่ยวข้องแก่ผู้ใช้</p>
+            </div>
+          </div>
+          <div class="ti fu">
+            <div class="glass"><small>03 · DEVELOP</small>
+              <h3>พัฒนา UI และโมเดล</h3>
+              <p>ออกแบบหน้าจอ และฝึกโมเดลจากภาพเห็ดที่กินได้เท่านั้น (549 ภาพ, 15 สายพันธุ์)</p>
+            </div>
+          </div>
+          <div class="ti fu">
+            <div class="glass"><small>04 · DELIVER</small>
+              <h3>ทดสอบและประเมินผล</h3>
+              <p>ทดสอบการใช้งานกับผู้ใช้กลุ่มเป้าหมาย และวัดความปลอดภัยของการสื่อสารผลลัพธ์</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="sec" style="padding-top:0">
+      <div class="wrap">
+        <div class="disc glass"><span class="ms">warning</span>
+          <p><b>ข้อจำกัดความรับผิดชอบ:</b>ผลการจำแนกภาพเป็นเพียงข้อมูลเบื้องต้น อาจมีความคลาดเคลื่อน ไม่ควรใช้ยืนยันชนิดหรือความปลอดภัยของเห็ดเพื่อการบริโภค ควรนำเห็ดไปให้ผู้เชี่ยวชาญในท้องถิ่นตรวจสอบทุกครั้งก่อนบริโภค
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec" id="research">
+      <div class="wrap">
+        <header class="fu" style="max-width:820px"><span class="lbl">Research Project</span>
+          <h2 class="tt" style="font-size:clamp(2rem,5vw,3.2rem)">โครงการวิจัย <em>MushroomLens</em></h2>
+          <p class="sub" style="max-width:none">การพัฒนาแอปพลิเคชันจำแนกเห็ดป่ากินได้ในประเทศไทยด้วย AI
+            ร่วมกับการออกแบบประสบการณ์ผู้ใช้ (UX Design) เพื่อความปลอดภัยของชุมชน</p>
+        </header>
+        <div class="rhero fu"> <img src="img/research/1.jpg" alt="ผู้เก็บเห็ดป่าใช้สมาร์ตโฟนตรวจสอบเห็ด">
+          <span class="ms">eco</span>
+        </div>
+        <div class="rgrid">
+          <div>
+            <div class="fu">
+              <h2 class="rh2">ระเบียบวิธีวิจัยและการออกแบบ <small>(Methodology)</small></h2>
+              <p class="rp">การพัฒนา MushroomLens ใช้กระบวนการออกแบบ Double Diamond
+                เพื่อทำความเข้าใจปัญหาและความต้องการของผู้เก็บเห็ดป่าในชุมชนอย่างรอบด้าน โดยกลุ่มเป้าหมายผู้ที่สนใจการเรียนรู้เกี่ยวกับเห็ด</p>
+              <p class="rp">ด้านเทคนิค ใช้ Transfer Learning
+                ปรับแต่งโครงข่ายประสาทเทียมให้จำแนกสายพันธุ์เห็ดที่พบในประเทศไทย
+                โดยฝึกจากภาพเห็ดที่ผู้เชี่ยวชาญในท้องถิ่นยืนยันแล้วว่ากินได้แน่นอนเท่านั้น
+                ส่วนเห็ดพิษและเห็ดที่ต้องตรวจสอบเป็นการยกตัวอย่างขึ้นมาเพื่อให้ผู้ใช้เห็นภาพมากขึ้นและใช้เพื่อแสดงคำเตือนในแอปเท่านั้น</p>
+            </div>
+            <div class="fu" style="margin-top:36px">
+              <h2 class="rh2">กระบวนการเก็บข้อมูล <small>(Data Collection Flow)</small></h2>
+              <div class="flow">
+                <div class="glass"><span class="ms">photo_camera</span><small>ขั้นตอนที่ 1</small><b>ถ่ายภาพ (Photo)</b>
+                </div>
+                <div class="glass"><span class="ms">edit_note</span><small>ขั้นตอนที่ 2</small><b>ระบุชื่อ (Name)</b>
+                </div>
+                <div class="glass"><span class="ms">health_and_safety</span><small>ขั้นตอนที่
+                    3</small><b>ประเมินความปลอดภัย</b></div>
+              </div>
+            </div>
+          </div>
+          <aside>
+            <div class="disc glass fu" style="margin:0 0 18px;display:block">
+              <div style="display:flex;gap:10px;align-items:center;margin-bottom:8px"><span
+                  class="ms">warning</span><b>ข้อจำกัดความรับผิดชอบ (Safety Disclaimer)</b></div>
+              <p style="font-size:.9rem">ระบบ AI ถูกฝึกจากภาพเห็ดที่กินได้เท่านั้น (Definitely Edible) เท่านั้น
+                แต่เพื่อความปลอดภัย <b>ผู้เก็บเห็ดควรนำเห็ดไปให้ผู้เชี่ยวชาญในท้องถิ่นตรวจสอบก่อนบริโภคทุกครั้ง</b></p>
+            </div>
+            <div class="glass fu" style="padding:22px">
+              <h3 style="font-size:.95rem;margin-bottom:12px;color:var(--g)">รายละเอียดทางเทคนิค</h3>
+              <ul class="spec">
+                <li><span class="ms">model_training</span>Model: Transfer Learning (CNN)</li>
+                <li><span class="ms">database</span>Data: 549 ภาพ, 15 สายพันธุ์เห็ดป่าไทย</li>
+                <li><span class="ms">groups</span>กลุ่มเป้าหมาย: ผู้ที่สนใจการเรียนรู้เกี่ยวกับเห็ด</li>
+              </ul>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="ft">
+    <div class="wrap">
+      <div class="ft-top">
+        <div class="ft-brand fu">
+          <a href="#hero" class="logo"><span class="ms">eco</span>MushroomLens</a>
+          <p class="ft-tag">Know your wild mushrooms <em>before you forage.</em></p>
+          <p class="ft-desc">An AI + UX research project helping communities in Thailand identify edible wild mushrooms
+            more safely. A decision-support tool, never a final verdict.</p>
+          <div class="ft-chips"><span><b>15</b> species</span><span><b>549</b> field photos</span><span>AI + UX
+              research</span></div>
+        </div>
+        <nav class="ft-col fu" aria-label="Explore">
+          <h4>Explore</h4>
+          <ul>
+            <li><a href="#hero">Home</a></li>
+            <li><a href="#classify">Classify a Mushroom</a></li>
+            <li><a href="#species">Species Library</a></li>
+            <li><a href="#community">Community &amp; Data Sources</a></li>
+          </ul>
+        </nav>
+        <nav class="ft-col fu" aria-label="Project">
+          <h4>Project</h4>
+          <ul>
+            <li><a href="#about">About the Research</a></li>
+            <li><a href="#verify">Data Verification</a></li>
+            <li><a href="#research">Research Structure</a></li>
+            <li><a href="#lookalike">Look-alike Warnings</a></li>
+          </ul>
+        </nav>
+        <aside class="ft-safe fu">
+          <span class="ms">warning</span>
+          <h4>Safety first</h4>
+          <p>Never eat a wild mushroom based on an AI result alone. Always have a local expert verify it before you cook
+            or eat it.</p>
+          <a href="#lookalike">Read the safety guide →</a>
+        </aside>
+      </div>
+      <div class="ft-bottom">
+        <p>© 2026 MushroomLens Project. All rights reserved.</p>
+        <p class="ft-tech">Image model built with Teachable Machine · TensorFlow.js</p>
+        <a href="#hero" class="ft-up" aria-label="Back to top"><span class="ms">arrow_upward</span></a>
+      </div>
+    </div>
+    <div class="ft-word" aria-hidden="true">MushroomLens</div>
+  </footer>
+
+  <!-- Modal รายละเอียดเห็ด -->
+  <div id="mp">
+    <div class="mbox" id="mbox">
+      <button class="ib" id="mx" aria-label="ปิด"><span class="ms">close</span></button>
+      <div class="thumb" id="mImg"></div>
+      <div class="mb" id="mBody"></div>
+    </div>
+  </div>
+
+  <!-- Modal เข้าสู่ระบบ -->
+  <div id="lg">
+    <form class="lbox glass" id="lf">
+      <button type="button" class="ib" id="lx" aria-label="ปิด" style="position:absolute;top:12px;right:12px"><span
+          class="ms">close</span></button>
+      <h3 style="font-size:1.4rem">เข้าสู่ระบบ</h3>
+      <p class="sub" style="font-size:.88rem;margin-bottom:6px">ลงชื่อเข้าใช้เพื่อรับการแจ้งเตือนและใช้งานบัญชีของคุณ
+      </p>
+      <input class="inp" id="lname" type="text" placeholder="ชื่อที่แสดง (ไม่บังคับ)" autocomplete="name">
+      <input class="inp" id="lmail" type="email" placeholder="อีเมล" required autocomplete="email">
+      <input class="inp" type="password" placeholder="รหัสผ่าน" required autocomplete="current-password">
+      <button class="btn" style="justify-content:center">เข้าสู่ระบบ</button>
+      <small style="color:var(--mut);font-size:.78rem">หมายเหตุ: เป็นเวอร์ชันสาธิต ยังไม่เชื่อมระบบสมาชิกจริง
+        ระบบจะจำเฉพาะชื่อและอีเมลไว้ในเบราว์เซอร์นี้ ไม่เก็บรหัสผ่าน</small>
+    </form>
+  </div>
+
+  <script>
+    const CAT = { safe: ['กินได้แน่นอน', 'check_circle'], check: ['ต้องตรวจสอบ', 'info'], toxic: ['มีพิษ', 'warning'] };
+    /* ===== ฐานข้อมูลเห็ด =====
+       รูปอยู่ในโฟลเดอร์ img/species/ แยก 3 โฟลเดอร์ย่อย:
+       Edible/E1.jpg-E15.jpg | Needs Verification/N1.jpg-N2.jpg | Poisonous/P1.jpg-P10.jpg
+       (ถ้าไม่มีไฟล์รูป การ์ดจะแสดงไอคอนใบไม้แทนเหมือนเดิม ไม่พัง)
+       c: safe=กินได้แน่นอน, check=ต้องตรวจสอบ, toxic=มีพิษ | i=ที่อยู่รูป | w=ข้อควรระวัง */
+    const V = 'โคกท่าขอนยาง, โคกหนองบัว, โคกใหญ่, บ้านดงบัง, ป่าสาธารณะ, บ้านโนนศิลา, ใกล้ดงระแนง, บ้านเว่อ';
+    const S = [
+      /* ---------- 1) กินได้แน่นอน (Edible) 15 ชนิด ---------- */
+      { n: 'เห็ดหน้าวัว', s: 'Lactifluus piperatus', c: 'safe', i: 'Edible/E1', r: 'ป่าดิบชื้น/เต็งรัง/เบญจพรรณ และป่าชุมชน (' + V + ')', d: 'หมวกสีขาว-ครีมทรงกรวยบุ๋ม มียางสีขาวข้น รสเผ็ดร้อน นิยมต้มทิ้งน้ำก่อนปรุง', w: 'ต้องต้มทิ้งน้ำก่อนปรุง' },
+      { n: 'เห็ดหน้าแดง (เห็ดระโงกหินหน้าแดง)', s: 'Russula lepida', c: 'safe', i: 'Edible/E2', r: 'ป่าเต็งรัง/ดิบแล้ง และป่าชุมชน (' + V + ')', d: 'ดอกสีแดงสด/ชมพู ก้านขาวอมชมพู เนื้อแน่นเปราะ นิยมแกง ต้ม หรือย่าง' },
+      { n: 'เห็ดระโงกเหลือง (เห็ดไข่เหลือง)', s: 'Amanita hemibapha', c: 'safe', i: 'Edible/E3', r: 'ป่าเต็งรัง/เบญจพรรณ/ดิบชื้น และป่าชุมชน (' + V + ')', d: 'ดอกสีเหลือง-ส้ม ขอบหมวกมีริ้ว มีวงแหวนและถ้วยหุ้มโคน เนื้อกรอบหวาน', w: 'ระวังสับสนกับเห็ดพิษ' },
+      { n: 'เห็ดระโงกขาว (เห็ดไข่หงส์/เห็ดไข่ขาว)', s: 'Amanita princeps', c: 'safe', i: 'Edible/E4', r: 'ป่าเต็งรัง/เบญจพรรณ และป่าชุมชน (' + V + ')', d: 'ดอกสีขาวบริสุทธิ์ขนาดใหญ่ ขอบหมวกมีริ้ว มีวงแหวนและถ้วยหุ้มโคน เนื้อนุ่มหวาน', w: 'ระวังสับสนกับเห็ดพิษ (เห็ดระโงกหินพิษ)' },
+      { n: 'เห็ดเพิก', s: 'Russula densifolia', c: 'safe', i: 'Edible/E5', r: 'ป่าเต็งรัง/เบญจพรรณ และป่าชุมชน (' + V + ')', d: 'หมวกสีน้ำตาลอมเทา ครีบชิดแน่น เมื่อช้ำจะเปลี่ยนเป็นสีแดงแล้วดำ นิยมนำมาแกง', w: 'ต้องต้มให้สุกก่อนกิน' },
+      { n: 'เห็ดผึ้งนกยูง', s: 'Heimioporus retisporus', c: 'safe', i: 'Edible/E6', r: 'ป่าเต็งรัง/เบญจพรรณ/ดิบแล้ง และป่าชุมชน (' + V + ')', d: 'ก้านมีลายตาข่ายนูนคล้ายหางนกยูง ใต้หมวกเป็นรูสีเหลือง-ส้ม เนื้อแน่น รสดี' },
+      { n: 'เห็ดผึ้งข้าว', s: 'Boletus sp.', c: 'safe', i: 'Edible/E7', r: 'ป่าเต็งรัง/ดิบแล้ง และป่าชุมชน (' + V + ')', d: 'หมวกสีขาวนวล/ครีมคล้ายข้าวสุก ใต้หมวกเป็นรูละเอียดสีขาวอมเหลือง เนื้อแน่นกรอบ' },
+      { n: 'เห็ดผึ้ง / เห็ดตับเต่า', s: 'Phlebopus spp. / Boletus spp.', c: 'safe', i: 'Edible/E8', r: 'ใต้ต้นไม้ยืนต้น/ป่าเต็งรัง และป่าชุมชน (' + V + ')', d: 'ดอกใหญ่หนาแน่น หมวกสีน้ำตาลเข้ม-ดำ ใต้หมวกเป็นรูสีน้ำตาล/เหลืองอมเขียว เนื้อนุ่มนัว' },
+      { n: 'เห็ดถ่าน', s: 'Russula nigricans', c: 'safe', i: 'Edible/E9', r: 'ป่าเต็งรัง/เบญจพรรณ และป่าชุมชน (' + V + ')', d: 'ดอกหนาแข็ง เมื่อแก่หรือช้ำจะเปลี่ยนจากสีขาวเป็นแดงแล้วดำสนิท ครีบห่าง' },
+      { n: 'เห็ดตะไคล (เห็ดหล่ม)', s: 'Russula virescens', c: 'safe', i: 'Edible/E10', r: 'ป่าเต็งรัง/เบญจพรรณ และป่าชุมชน (' + V + ')', d: 'หมวกสีเขียวอมเทา แตกเป็นเกล็ดเล็กๆ เนื้อกรอบ มีกลิ่นหอมเฉพาะ นิยมเผาทำน้ำพริก' },
+      { n: 'เห็ดโคน (เห็ดปลวก)', s: 'Termitomyces fuliginosus', c: 'safe', i: 'Edible/E11', r: 'บริเวณจอมปลวกในป่า/สวน และป่าชุมชน (' + V + ')', d: 'ขึ้นใกล้อังคารจอมปลวก หมวกสีน้ำตาลอมเทายอดนูน โคนก้านยาวหยั่งลึก เนื้อหวานกรอบ' },
+      { n: 'เห็ดขม (เห็ดผึ้งขม)', s: 'Tylopilus felleus', c: 'safe', i: 'Edible/E12', r: 'ป่าดิบชื้น/ป่าสน และป่าชุมชน (' + V + ')', d: 'คล้ายเห็ดผึ้ง แต่ใต้หมวกสีชมพูอ่อนเมื่อแก่ ก้านมีลายตาข่าย รสขมจัดแม้ปรุงสุก', w: 'กินไม่ได้ (รสขมจัด)' },
+      { n: 'เห็ดเกลือ', s: 'Russula delica', c: 'safe', i: 'Edible/E13', r: 'ป่าเต็งรัง/เบญจพรรณ และป่าชุมชน (' + V + ')', d: 'หมวกสีขาวอมครีมทรงกรวยบุ๋ม มักมีคราบดินติด ครีบถี่แน่น เนื้อกรอบ กลิ่นหอม' },
+      { n: 'เห็ดยูคา (เห็ดผึ้งขม)', s: 'Boletus griseipurpureus', c: 'safe', i: 'Edible/E14', r: 'ป่าปลูกยูคาลิปตัส/เบญจพรรณ และป่าชุมชน (' + V + ')', d: 'ดอกสีม่วงอมน้ำตาล ใต้หมวกเป็นรูละเอียด เนื้อแน่น มีรสขมเป็นเอกลักษณ์', w: 'ต้มกับใบย่านางเพื่อลดความขม' },
+      { n: 'เห็ดเผาะ (เห็ดถอบ)', s: 'Astraeus hygrometricus', c: 'safe', i: 'Edible/E15', r: 'ป่าเต็งรัง/เบญจพรรณ และป่าชุมชน (' + V + ')', d: 'ดอกกลมไม่มีก้าน เปลือกหนากรอบ ดอกอ่อนด้านในสีขาว เคี้ยวกรุบแตกเป๊าะ', w: 'ระวังสับสนกับเห็ดไข่หงส์ ผ่าดูเนื้อใน ต้องเป็นสีขาวเท่านั้น' },
+      /* ---------- 2) ต้องตรวจสอบ (Needs Verification) 2 ชนิด ---------- */
+      { n: 'เห็ดถ่านใหญ่', s: 'Russula nigricans', c: 'check', i: 'Needs Verification/N1', r: 'ป่าเต็งรัง/เบญจพรรณ/ดิบ และป่าชุมชน (' + V + ')', d: 'ดอกเห็ดขนาดใหญ่ ผิวสีกระดำกระเหม่าถึงดำสนิทคล้ายก้อนถ่าน ครีบห่าง เนื้อหนาแข็ง เมื่อช้ำหรือตัดฟันจะเปลี่ยนจากสีขาวเป็นแดงแล้วกลายเป็นสีดำสนิท', w: 'คล้ายเห็ดถ่านเลือด (Russula subnigricans) ที่มีพิษร้ายแรง ต้องให้ผู้เชี่ยวชาญยืนยันก่อนกิน' },
+      { n: 'เห็ดโคนน้อย (เห็ดหมึก)', s: 'Coprinopsis atramentaria', c: 'check', i: 'Needs Verification/N2', r: 'กองฟาง, กองปุ๋ยคอก, ดินร่วน และป่าชุมชน (' + V + ')', d: 'ทานได้เฉพาะตูมดอกสีขาว หากหมวกเริ่มละลายเป็นน้ำสีดำห้ามกิน', w: 'ต้องตรวจสอบอายุของดอกเห็ด และห้ามดื่มแอลกอฮอล์ร่วมด้วยภายใน 24-48 ชม. เพราะจะเกิดพิษ Coprine' },
+      /* ---------- 3) มีพิษ (Poisonous) 10 ชนิด ---------- */
+      { n: 'เห็ดระโงกหินพิษ (เห็ดไข่ตายซาก / เห็ดไข่หงส์พิษ)', s: 'Amanita phalloides / Amanita exitialis', c: 'toxic', i: 'Poisonous/P1', r: 'ป่าเต็งรัง/เบญจพรรณ/ดิบชื้น และป่าชุมชน (โคกท่าขอนยาง, โคกหนองบัว, โคกใหญ่ ฯลฯ)', d: 'คล้ายเห็ดระโงกขาวกินได้ หมวกสีขาว/เทา มีวงแหวนและถ้วยหุ้มโคนก้านชัดเจน สารพิษทำลายตับและไตอย่างรุนแรง', w: 'มีพิษร้ายแรงถึงชีวิต (อันตรายที่สุด)' },
+      { n: 'เห็ดกระโดงสีก้านร่มพิษ (เห็ดหัวงู / เห็ดกระโดงเทาพิษ)', s: 'Chlorophyllum molybdites', c: 'toxic', i: 'Poisonous/P2', r: 'สนามหญ้า, ขอนไม้, ป่าโปร่ง และป่าชุมชน', d: 'คล้ายเห็ดกระโดงกินได้ แต่เมื่อแก่สปอร์และใต้หมวกจะเปลี่ยนเป็นสีเขียวอมเทา ทำให้ปวดท้อง อาเจียน และถ่ายเป็นเลือด', w: 'มีพิษร้ายแรง (ระบบทางเดินอาหาร)' },
+      { n: 'เห็ดถ่านเลือด (เห็ดถ่านพิษ)', s: 'Russula subnigricans', c: 'toxic', i: 'Poisonous/P3', r: 'ป่าเต็งรัง/เบญจพรรณ และป่าชุมชน', d: 'คล้ายเห็ดถ่านกินได้ แต่เมื่อถูกช้ำหรือหักก้าน เนื้อจะเปลี่ยนเป็นสีแดงสด (ไม่เปลี่ยนเป็นสีดำสนิท) ทำให้กล้ามเนื้อสลายและไตวาย', w: 'มีพิษร้ายแรงถึงชีวิต' },
+      { n: 'เห็ดหมวกจีนพิษ (เห็ดคันร่มพิษ)', s: 'Inocybe spp.', c: 'toxic', i: 'Poisonous/P4', r: 'พื้นดินใต้ต้นไม้ในป่าเต็งรัง/เบญจพรรณ และป่าชุมชน', d: 'หมวกทรงกรวยยอดแหลมคล้ายหมวกจีน ผิวหมวกมีรอยแตกตามยาว สารพิษส่งผลต่อระบบประสาท น้ำลายไหล เหงื่อออก ม่านตาหดตัว', w: 'มีพิษร้ายแรง (สารมัสคารีน)' },
+      { n: 'เห็ดเกล็ดขนพิษ (เห็ดระโงกเกล็ดขน)', s: 'Amanita virgineoides', c: 'toxic', i: 'Poisonous/P5', r: 'ป่าเต็งรัง/เบญจพรรณ และป่าชุมชน', d: 'ดอกสีขาว ขนาดใหญ่ มีปุ่มเกล็ดหนานุ่มหลุดง่ายกระจายทั่วหมวกและก้าน คล้ายเห็ดระโงก แต่ทำให้เกิดพิษต่อระบบทางเดินอาหารอย่างรุนแรง', w: 'มีพิษร้ายแรง' },
+      { n: 'เห็ดขี้ควาย (เห็ดเมา)', s: 'Psilocybe cubensis', c: 'toxic', i: 'Poisonous/P6', r: 'กองมูลสัตว์ (วัว, ควาย) ในท้องนา ป่าโปร่ง และป่าชุมชน', d: 'หมวกสีเหลืองอมน้ำตาล เมื่อช้ำหรือถูกสัมผัสจะเปลี่ยนเป็นสีเขียวอมฟ้า มีสารไซโลไซบิน ทำให้เกิดอาการประสาทหลอน ภาพนิมิต มึนงง', w: 'มีพิษต่อระบบประสาท (สารเสพติดให้โทษ)' },
+      { n: 'เห็ดน้ำหมากพิษ', s: 'Russula emetica', c: 'toxic', i: 'Poisonous/P7', r: 'ป่าเต็งรัง/เบญจพรรณ/ดิบชื้น และป่าชุมชน', d: 'ผิวหมวกสีแดงสดเงางาม ครีบและก้านสีขาวบริสุทธิ์ เนื้อเปราะ รสเผ็ดจัด คลื่นไส้อาเจียนและท้องร่วงรุนแรงหลังรับประทาน', w: 'มีพิษ (ระคายเคืองรุนแรง)' },
+      { n: 'เห็ดกระโดงเล็กพิษ (เห็ดคันร่มเกล็ดพิษ)', s: 'Lepiota spp.', c: 'toxic', i: 'Poisonous/P8', r: 'ป่าโปร่ง, ตามกองเศษใบไม้ และป่าชุมชน', d: 'ดอกขนาดเล็ก หมวกมีเกล็ดสีน้ำตาลกระจาย มีวงแหวนที่ก้าน สารพิษกลุ่มอะมาท็อกซินทำลายตับและไตเช่นเดียวกับเห็ดระโงกหินพิษ', w: 'มีพิษร้ายแรงถึงชีวิต' },
+      { n: 'เห็ดสมองวัว', s: 'Gyromitra esculenta', c: 'toxic', i: 'Poisonous/P9', r: 'พื้นดินในป่าดิบชื้น/เบญจพรรณ', d: 'ดอกเห็ดขรุขระเป็นลอนคล้ายรอยย่นของสมองวัว สีน้ำตาลอมแดง สารพิษทำลายระบบประสาทและเม็ดเลือดแดง', w: 'มีพิษร้ายแรง (สารจิโรมิทริน)' },
+      { n: 'เห็ดปะการังพิษ', s: 'Ramaria spp. (ชนิดมีพิษ)', c: 'toxic', i: 'Poisonous/P10', r: 'ตามพื้นดินและขอนไม้ในป่าเบญจพรรณ/ดิบชื้น และป่าชุมชน', d: 'รูปร่างแตกแขนงคล้ายปะการัง สีส้มสด เหลือง หรือชมพู เนื้อเปราะ ส่งผลให้ปวดท้อง ลำไส้อักเสบ และอาเจียนอย่างหนัก', w: 'มีพิษ (ระบบทางเดินอาหาร)' }
+    ];
+    const nul = new Proxy(function () { }, { get: () => nul, set: () => true, apply: () => nul });
+    const $ = s => document.querySelector(s) || nul, $$ = s => [...document.querySelectorAll(s)];
+    let cat = 'all', q = '', cur = 0;
+    const _c = new URLSearchParams(location.search).get('cat'); if (CAT[_c]) cat = _c;
+    const match = x => (cat === 'all' || x.c === cat) && (x.n + x.s).toLowerCase().includes(q.toLowerCase());
+    const badge = c => `<span class="bdg"><span class="ms" style="font-size:14px">${CAT[c][1]}</span>${CAT[c][0]}</span>`;
+    const EXT = ['jpg', 'JPG', 'jpeg', 'JPEG', 'png', 'PNG'];
+    const thumb = x => `<span class="ms">eco</span>${x.i ? `<img src="img/species/${x.i}.jpg" data-e="0" alt="${x.n}" loading="lazy" onerror="imgFail(this)">` : ''}`;
+    function imgFail(im) { const k = +im.dataset.e + 1; if (k < EXT.length) { im.dataset.e = k; im.src = im.getAttribute('src').replace(/\.[^./]+$/, '.' + EXT[k]) } else im.remove() }
+
+    /* filter buttons + search chips */
+    const F = [['all', 'ทั้งหมด'], ...Object.entries(CAT).map(([k, v]) => [k, v[0]])];
+    $('#filters').innerHTML = $('#sChips').innerHTML = F.map(f => `<button class="chip${f[0] === cat ? ' on' : ''}" data-f="${f[0]}">${f[1]}</button>`).join('');
+    $$('.chip').forEach(b => b.onclick = () => setCat(b.dataset.f));
+    function setCat(c) { cat = c; $$('.chip').forEach(b => b.classList.toggle('on', b.dataset.f === c)); render(); renderSearch() }
+
+    function render() {
+      const l = S.filter(match);
+      $('#sgrid').innerHTML = l.length ? l.map(x => `<button class="card glass ${x.c}" data-k="${S.indexOf(x)}"><div class="thumb">${thumb(x)}${badge(x.c)}</div><div class="cb"><h3>${x.n}</h3><i>${x.s}</i><p>${x.d}</p></div></button>`).join('') : '<p class="empty">ไม่พบเห็ดที่ค้นหา</p>';
+      $$('#sgrid .card').forEach(c => c.onclick = () => openM(+c.dataset.k));
+    }
+    function renderSearch() {
+      const l = S.filter(match);
+      $('#sres').innerHTML = l.map(x => `<button class="sr glass ${x.c}" data-k="${S.indexOf(x)}"><span>${x.n} <i>${x.s}</i></span>${badge(x.c)}</button>`).join('') || '<p class="empty">ไม่พบเห็ดที่ค้นหา</p>';
+      $$('.sr').forEach(c => c.onclick = () => { closeS(); openM(+c.dataset.k) });
+    }
+    /* จำนวนในแต่ละระดับ + marquee */
+    $$('.cat').forEach(c => { c.querySelector('b').textContent = S.filter(x => x.c === c.dataset.go).length + ' สายพันธุ์ในคลัง'; c.onclick = () => { setCat(c.dataset.go); $('#species').scrollIntoView() } });
+    const mqT = ['ระบุชนิดจากภาพถ่าย', 'กินได้แน่นอน', 'ต้องตรวจสอบ', 'มีพิษ', 'ข้อมูลจากชุมชน', 'ผู้เชี่ยวชาญยืนยัน', 'AI ช่วยตัดสินใจ'];
+    $('#mq').innerHTML = [...mqT, ...mqT].map(t => `<span>${t}</span>`).join('');
+
+    /* modal */
+    function openM(k) {
+      cur = k; const x = S[k];
+      $('#mImg').innerHTML = thumb(x);
+      $('#mBody').innerHTML = `${badge(x.c)}<h3>${x.n}</h3><i>${x.s}</i>
+  <div class="loc"><span class="ms" style="font-size:16px">location_on</span> ${x.r}</div><p>${x.d}</p>
+  ${x.w ? `<div class="warnbox"><b>⚠ ระวัง:</b> ${x.w}</div>` : ''}
+  <div class="warnbox" style="background:none;border-color:var(--bd)">ห้ามตัดสินว่ากินได้จากภาพหรือคำบรรยายอย่างเดียว ควรให้ผู้เชี่ยวชาญในท้องถิ่นตรวจสอบทุกครั้ง</div>
+  <div class="nav"><button class="btn ghost" id="pv">‹ ก่อนหน้า</button><button class="btn ghost" id="nx">ถัดไป ›</button></div>`;
+      $('#mbox').className = 'mbox ' + x.c; $('#mp').classList.add('open');
+      $('#pv').onclick = () => openM((cur + S.length - 1) % S.length); $('#nx').onclick = () => openM((cur + 1) % S.length);
+    }
+    const closeM = () => $('#mp').classList.remove('open');
+    $('#mx').onclick = closeM; $('#mp').onclick = e => { if (e.target.id === 'mp') closeM() };
+
+    /* search overlay */
+    const openS = () => { $('#sov').classList.add('open'); renderSearch(); $('#sq').focus() }, closeS = () => $('#sov').classList.remove('open');
+    $('#sBtn').onclick = openS; $('#sClose').onclick = closeS;
+    $('#sq').oninput = e => { q = e.target.value.trim(); renderSearch(); render() };
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeM(); closeS() } });
+
+    /* nav */
+    $('#burger').onclick = () => $('#links').classList.toggle('open');
+    $$('#links a').forEach(a => a.onclick = () => $('#links').classList.remove('open'));
+    addEventListener('scroll', () => $('#nav').classList.toggle('scrolled', scrollY > 30), { passive: true });
+    /* spores */
+    $('#hero').insertAdjacentHTML('beforeend', Array.from({ length: 14 }, (_, i) => { const z = 3 + Math.random() * 5; return `<span class="spore" style="width:${z}px;height:${z}px;left:${Math.random() * 100}%;bottom:${5 + Math.random() * 30}%;--dx:${Math.random() * 80 - 40}px;animation-duration:${8 + Math.random() * 7}s;animation-delay:${Math.random() * 6}s"></span>` }).join(''));
+    /* fade-up */
+    const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('vis'); io.unobserve(e.target) } }), { threshold: .12 });
+    $$('.fu').forEach(el => io.observe(el));
+
+    /* (แผนที่ใช้ Google My Maps iframe แล้ว จึงลบโค้ดวาดแผนที่ SVG เดิมออก) */
+    render();
+
+    /* scroll spy */
+    (() => {
+      const ids = ['hero', 'species', 'classify', 'community', 'about', 'research'];
+      addEventListener('scroll', () => {
+        let cur = 'hero'; ids.forEach(i => { const e = document.getElementById(i); if (e && e.getBoundingClientRect().top < 140) cur = i });
+        $$('#links a').forEach(a => a.classList.toggle('on', a.getAttribute('href') === '#' + cur))
+      }, { passive: true })
+    })();
+    /* เข้าสู่ระบบ + แจ้งเตือน (สาธิต ไม่มี backend) */
+    (() => {
+      const g = id => document.getElementById(id), ls = { get: k => { try { return localStorage.getItem(k) } catch (e) { return null } }, set: (k, v) => { try { localStorage.setItem(k, v) } catch (e) { } }, del: k => { try { localStorage.removeItem(k) } catch (e) { } } };
+      const N = [{ t: 'ยินดีต้อนรับสู่ MushroomLens', d: 'เริ่มจากอัปโหลดรูปเห็ดในส่วน Classify หรือดูคลังสายพันธุ์', i: 'waving_hand' },
+      { t: 'ข้อควรระวัง', d: 'ผลจาก AI ใช้ประกอบการตัดสินใจเท่านั้น ควรให้ผู้เชี่ยวชาญในท้องถิ่นตรวจสอบก่อนบริโภคทุกครั้ง', i: 'warning' },
+      { t: 'สถานะระบบ', d: 'ส่วนจำแนกภาพด้วย AI อยู่ระหว่างพัฒนา', i: 'info' }];
+      const closeDD = () => { g('nMenu').classList.remove('open'); g('uMenu').classList.remove('open') };
+      function renderN() {
+        const read = +ls.get('ml_read') || 0;
+        g('nList').innerHTML = N.map((n, i) => `<div class="ni${i >= read ? ' un' : ''}"><span class="ms">${n.i}</span><div><b>${n.t}</b><p>${n.d}</p></div></div>`).join('');
+        g('nDot').style.display = read >= N.length ? 'none' : 'block'
+      }
+      g('nBtn').onclick = e => { e.stopPropagation(); const o = !g('nMenu').classList.contains('open'); closeDD(); g('nMenu').classList.toggle('open', o) };
+      g('nRead').onclick = () => { ls.set('ml_read', N.length); renderN() };
+      function renderU() {
+        let u = null; try { u = JSON.parse(ls.get('ml_user')) } catch (e) { }
+        g('loginBtn').hidden = !!u; g('uWrap').hidden = !u;
+        if (u) { g('uBtn').textContent = (u.name || u.email)[0].toUpperCase(); g('uName').textContent = u.name || u.email.split('@')[0]; g('uMail').textContent = u.email }
+      }
+      g('uBtn').onclick = e => { e.stopPropagation(); const o = !g('uMenu').classList.contains('open'); closeDD(); g('uMenu').classList.toggle('open', o) };
+      g('logout').onclick = () => { ls.del('ml_user'); closeDD(); renderU() };
+      g('loginBtn').onclick = () => { g('lg').classList.add('open'); g('lmail').focus() };
+      const closeL = () => g('lg').classList.remove('open');
+      g('lx').onclick = closeL; g('lg').onclick = e => { if (e.target.id === 'lg') closeL() };
+      g('lf').onsubmit = e => {
+        e.preventDefault(); const m = g('lmail').value.trim();
+        ls.set('ml_user', JSON.stringify({ name: g('lname').value.trim(), email: m })); closeL(); g('lf').reset(); renderU()
+      };
+      document.addEventListener('click', e => { if (!e.target.closest('.dd')) closeDD() });
+      document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeDD(); closeL() } });
+      renderN(); renderU();
+    })();
+  </script>
+  <script src="js/classify.js"></script>
+  <script src="js/collect.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/stats.js"></script>
+</body>
+
+</html>
