@@ -1,37 +1,3 @@
-
-/
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Readme · MD
 # 🍄 MushroomLens
 ### Prototype Web Application for Preliminary Identification of Edible Wild Mushrooms using AI, with Usability Evaluation
  
